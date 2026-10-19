@@ -53,6 +53,10 @@ export default {
     const extras = {};
     if (env.FIELD_STATUS && env.STATUS_VALUE) extras[env.FIELD_STATUS] = env.STATUS_VALUE;
     if (env.FIELD_LEAD_OWNER && env.LEAD_OWNER_EMAIL) extras[env.FIELD_LEAD_OWNER] = { email: env.LEAD_OWNER_EMAIL };
+    // Which site the enquiry came from, e.g. "https://konda.io". Taken from the Origin
+    // header, which is already checked against ALLOWED_ORIGINS above.
+    const website = {};
+    if (env.FIELD_WEBSITE) website[env.FIELD_WEBSITE] = origin.replace("://www.", "://");
 
     const save = (fields) =>
       fetch(`https://api.airtable.com/v0/${env.AIRTABLE_BASE_ID}/${encodeURIComponent(env.AIRTABLE_TABLE)}`, {
@@ -61,14 +65,18 @@ export default {
         body: JSON.stringify({ records: [{ fields }], typecast: true }),
       });
 
-    let res = await save({ ...fields, ...extras });
-    if (!res.ok && Object.keys(extras).length) {
-      console.error("CRM extras rejected, saving without them", res.status, await res.text());
-      res = await save(fields);
+    // Try with everything, then drop the optional extras one group at a time,
+    // so a missing or renamed column never loses the enquiry itself.
+    const attempts = [{ ...fields, ...extras, ...website }, { ...fields, ...extras }, fields];
+    let res;
+    for (const [i, attempt] of attempts.entries()) {
+      if (i > 0 && Object.keys(attempt).length === Object.keys(attempts[i - 1]).length) continue;
+      res = await save(attempt);
+      if (res.ok) break;
+      console.error("Airtable rejected attempt", i, res.status, await res.text());
     }
 
     if (!res.ok) {
-      console.error("Airtable error", res.status, await res.text());
       return reply(502, { error: "Could not save enquiry" });
     }
     return reply(200, { ok: true });

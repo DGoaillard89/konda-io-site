@@ -25,4 +25,7 @@ STATUS_VALUE = "New Lead"
 FIELD_LEAD_OWNER = "Lead Owner"
 LEAD_OWNER_EMAIL = "daniel@dswater.co.uk"
 
+# The site the enquiry was sent from, e.g. https://konda.io
+FIELD_WEBSITE = "Website"
+
 # The Airtable token is a secret, set with:  npx wrangler secret put AIRTABLE_TOKEN
