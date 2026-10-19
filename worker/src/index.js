@@ -48,6 +48,11 @@ export default {
       [env.FIELD_ENQUIRY_TYPE]: clean.enquiryType,
       [env.FIELD_MESSAGE]: clean.message,
     };
+    // CRM extras so the enquiry appears in the interface: starting status and owner.
+    // If Airtable rejects either, the enquiry is still saved without them.
+    const extras = {};
+    if (env.FIELD_STATUS && env.STATUS_VALUE) extras[env.FIELD_STATUS] = env.STATUS_VALUE;
+    if (env.FIELD_LEAD_OWNER && env.LEAD_OWNER_EMAIL) extras[env.FIELD_LEAD_OWNER] = { email: env.LEAD_OWNER_EMAIL };
 
     const save = (fields) =>
       fetch(`https://api.airtable.com/v0/${env.AIRTABLE_BASE_ID}/${encodeURIComponent(env.AIRTABLE_TABLE)}`, {
@@ -56,14 +61,11 @@ export default {
         body: JSON.stringify({ records: [{ fields }], typecast: true }),
       });
 
-    // Assign a Lead Owner so the enquiry shows in the CRM interface.
-    // If Airtable rejects the owner, still save the enquiry without one.
-    let res;
-    if (env.FIELD_LEAD_OWNER && env.LEAD_OWNER_EMAIL) {
-      res = await save({ ...fields, [env.FIELD_LEAD_OWNER]: { email: env.LEAD_OWNER_EMAIL } });
-      if (!res.ok) console.error("Lead Owner rejected, saving without it", res.status, await res.text());
+    let res = await save({ ...fields, ...extras });
+    if (!res.ok && Object.keys(extras).length) {
+      console.error("CRM extras rejected, saving without them", res.status, await res.text());
+      res = await save(fields);
     }
-    if (!res || !res.ok) res = await save(fields);
 
     if (!res.ok) {
       console.error("Airtable error", res.status, await res.text());
