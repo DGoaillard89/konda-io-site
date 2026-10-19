@@ -1,0 +1,20 @@
+name = "konda-enquiries"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+[vars]
+ALLOWED_ORIGINS = "https://konda.io,https://www.konda.io"
+
+# Airtable base and table (from the Airtable URL: airtable.com/appXXXX/tblYYYY/...)
+AIRTABLE_BASE_ID = "appXXXXXXXXXXXXXX"
+AIRTABLE_TABLE = "Enquiries"
+
+# Airtable column names, exactly as they appear in the table
+FIELD_NAME = "Name"
+FIELD_EMAIL = "Email"
+FIELD_PHONE = "Phone"
+FIELD_POSTCODE = "Postcode"
+FIELD_ENQUIRY_TYPE = "Enquiry Type"
+FIELD_MESSAGE = "Message"
+
+# The Airtable token is a secret, set with:  npx wrangler secret put AIRTABLE_TOKEN

@@ -223,6 +223,8 @@ document.querySelector(".arrow--prev").addEventListener("click", () => go(active
 document.querySelector(".arrow--next").addEventListener("click", () => go(active + 1));
 
 document.addEventListener("keydown", (e) => {
+  // Don't steal arrow keys while the enquiry form is open
+  if (document.querySelector("dialog[open]")) return;
   if (e.key === "ArrowLeft") go(active - 1);
   if (e.key === "ArrowRight") go(active + 1);
 });

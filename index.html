@@ -35,7 +35,7 @@
       </svg>
       <span class="brand__name">Konda</span>
     </a>
-    <a class="nav__cta" href="mailto:hello@konda.io">Get in touch</a>
+    <button class="nav__cta" type="button" data-open-enquiry>Get in touch</button>
   </header>
 
   <main>
@@ -62,9 +62,64 @@
 
   <footer class="footer">
     <span>© <span id="year"></span> Konda.io</span>
-    <a href="mailto:hello@konda.io">hello@konda.io</a>
+    <button class="footer__link" type="button" data-open-enquiry>Get in touch</button>
   </footer>
 
+  <dialog class="enquiry" id="enquiry" aria-labelledby="enquiry-title">
+    <button class="enquiry__close" type="button" aria-label="Close" data-close-enquiry>
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" /></svg>
+    </button>
+
+    <form class="enquiry__form" id="enquiry-form" novalidate>
+      <p class="eyebrow">Software enquiry</p>
+      <h2 id="enquiry-title">Let's talk.</h2>
+      <p class="enquiry__lede">Tell us a little about what you need and we'll be in touch.</p>
+
+      <div class="field-grid">
+        <label class="field">
+          <span>Name</span>
+          <input name="name" type="text" autocomplete="name" required maxlength="120" />
+        </label>
+        <label class="field">
+          <span>Email</span>
+          <input name="email" type="email" autocomplete="email" required maxlength="200" />
+        </label>
+        <label class="field">
+          <span>Phone</span>
+          <input name="phone" type="tel" autocomplete="tel" required maxlength="40" />
+        </label>
+        <label class="field">
+          <span>Postcode</span>
+          <input name="postcode" type="text" autocomplete="postal-code" required maxlength="12" />
+        </label>
+        <label class="field field--full">
+          <span>How can we help?</span>
+          <textarea name="message" rows="4" required maxlength="5000"></textarea>
+        </label>
+      </div>
+
+      <!-- Spam trap: hidden from people, bots tend to fill it in -->
+      <input class="enquiry__trap" name="company_website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+      <p class="enquiry__error" id="enquiry-error" role="alert"></p>
+
+      <button class="enquiry__submit" type="submit">
+        <span class="enquiry__submit-label">Send enquiry</span>
+        <span class="enquiry__spinner" aria-hidden="true"></span>
+      </button>
+    </form>
+
+    <div class="enquiry__done" id="enquiry-done" hidden>
+      <div class="enquiry__tick">
+        <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+      </div>
+      <h2>Thanks — we've got it.</h2>
+      <p class="enquiry__lede">Someone from the Konda team will be in touch shortly.</p>
+      <button class="enquiry__submit" type="button" data-close-enquiry>Close</button>
+    </div>
+  </dialog>
+
   <script src="script.js"></script>
+  <script src="enquiry.js"></script>
 </body>
 </html>
