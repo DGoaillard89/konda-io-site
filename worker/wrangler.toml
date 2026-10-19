@@ -3,7 +3,7 @@ main = "src/index.js"
 compatibility_date = "2026-10-01"
 
 [vars]
-ALLOWED_ORIGINS = "https://konda.io,https://www.konda.io,https://legionella-risk-assessments.com,https://www.legionella-risk-assessments.com"
+ALLOWED_ORIGINS = "https://konda.io,https://www.konda.io,https://legionella-risk-assessments.com,https://www.legionella-risk-assessments.com,https://coolingtowertreatment.co.uk,https://www.coolingtowertreatment.co.uk,https://tmv-servicing.com,https://www.tmv-servicing.com,https://tmvservicing.london,https://www.tmvservicing.london,https://homewatersoftener.co.uk,https://www.homewatersoftener.co.uk"
 
 # Airtable base and table (from the Airtable URL: airtable.com/appXXXX/tblYYYY/...)
 AIRTABLE_BASE_ID = "appozyzPRV3guZNQx"
