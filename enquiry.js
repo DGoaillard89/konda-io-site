@@ -3,7 +3,7 @@
 // Submissions go to a Cloudflare Worker (see /worker), which holds the
 // Airtable key and creates the CRM record. Set the Worker's URL here.
 // ---------------------------------------------------------------------------
-const ENQUIRY_ENDPOINT = "";
+const ENQUIRY_ENDPOINT = "https://konda-enquiries.daniel-10c.workers.dev";
 const ENQUIRY_TYPE = "Software";
 
 (() => {

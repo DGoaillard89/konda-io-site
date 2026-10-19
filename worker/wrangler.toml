@@ -6,15 +6,15 @@ compatibility_date = "2026-10-01"
 ALLOWED_ORIGINS = "https://konda.io,https://www.konda.io"
 
 # Airtable base and table (from the Airtable URL: airtable.com/appXXXX/tblYYYY/...)
-AIRTABLE_BASE_ID = "appXXXXXXXXXXXXXX"
-AIRTABLE_TABLE = "Enquiries"
+AIRTABLE_BASE_ID = "appozyzPRV3guZNQx"
+AIRTABLE_TABLE = "tbl3ime8pL7Iqx1s7"
 
 # Airtable column names, exactly as they appear in the table
 FIELD_NAME = "Name"
 FIELD_EMAIL = "Email"
-FIELD_PHONE = "Phone"
+FIELD_PHONE = "Phone Number"
 FIELD_POSTCODE = "Postcode"
-FIELD_ENQUIRY_TYPE = "Enquiry Type"
+FIELD_ENQUIRY_TYPE = "Service Type"
 FIELD_MESSAGE = "Message"
 
 # The Airtable token is a secret, set with:  npx wrangler secret put AIRTABLE_TOKEN
