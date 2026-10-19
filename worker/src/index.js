@@ -53,10 +53,10 @@ export default {
     const extras = {};
     if (env.FIELD_STATUS && env.STATUS_VALUE) extras[env.FIELD_STATUS] = env.STATUS_VALUE;
     if (env.FIELD_LEAD_OWNER && env.LEAD_OWNER_EMAIL) extras[env.FIELD_LEAD_OWNER] = { email: env.LEAD_OWNER_EMAIL };
-    // Which site the enquiry came from, e.g. "https://konda.io". Taken from the Origin
-    // header, which is already checked against ALLOWED_ORIGINS above.
+    // Which site the enquiry came from, as a bare domain, e.g. "konda.io". Taken from
+    // the Origin header, which is already checked against ALLOWED_ORIGINS above.
     const website = {};
-    if (env.FIELD_WEBSITE) website[env.FIELD_WEBSITE] = origin.replace("://www.", "://");
+    if (env.FIELD_WEBSITE) website[env.FIELD_WEBSITE] = new URL(origin).hostname.replace(/^www\./, "");
 
     const save = (fields) =>
       fetch(`https://api.airtable.com/v0/${env.AIRTABLE_BASE_ID}/${encodeURIComponent(env.AIRTABLE_TABLE)}`, {
