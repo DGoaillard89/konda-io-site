@@ -17,4 +17,8 @@ FIELD_POSTCODE = "Postcode"
 FIELD_ENQUIRY_TYPE = "Service Type"
 FIELD_MESSAGE = "Message"
 
+# Every new enquiry is assigned to this Airtable user
+FIELD_LEAD_OWNER = "Lead Owner"
+LEAD_OWNER_EMAIL = "daniel@dswater.co.uk"
+
 # The Airtable token is a secret, set with:  npx wrangler secret put AIRTABLE_TOKEN

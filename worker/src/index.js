@@ -49,15 +49,21 @@ export default {
       [env.FIELD_MESSAGE]: clean.message,
     };
 
-    const res = await fetch(
-      `https://api.airtable.com/v0/${env.AIRTABLE_BASE_ID}/${encodeURIComponent(env.AIRTABLE_TABLE)}`,
-      {
+    const save = (fields) =>
+      fetch(`https://api.airtable.com/v0/${env.AIRTABLE_BASE_ID}/${encodeURIComponent(env.AIRTABLE_TABLE)}`, {
         method: "POST",
         headers: { Authorization: `Bearer ${env.AIRTABLE_TOKEN}`, "Content-Type": "application/json" },
-        // typecast lets "Software" match (or create) a single-select option
         body: JSON.stringify({ records: [{ fields }], typecast: true }),
-      }
-    );
+      });
+
+    // Assign a Lead Owner so the enquiry shows in the CRM interface.
+    // If Airtable rejects the owner, still save the enquiry without one.
+    let res;
+    if (env.FIELD_LEAD_OWNER && env.LEAD_OWNER_EMAIL) {
+      res = await save({ ...fields, [env.FIELD_LEAD_OWNER]: { email: env.LEAD_OWNER_EMAIL } });
+      if (!res.ok) console.error("Lead Owner rejected, saving without it", res.status, await res.text());
+    }
+    if (!res || !res.ok) res = await save(fields);
 
     if (!res.ok) {
       console.error("Airtable error", res.status, await res.text());
